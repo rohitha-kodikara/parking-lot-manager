@@ -16,7 +16,7 @@ const Slot = ({ slot, parkingDetails, onReleaseSlot }) => {
     <div
       onClick={() => onReleaseSlot({ slotId: slot.id, slotType: slot.style })}
       key={slot.id}
-      className={`flex h-[63px] flex-col items-center justify-center rounded-lg border text-center leading-[15px] 
+      className={`cursor-pointer flex h-[63px] flex-col items-center justify-center rounded-lg border text-center leading-[15px] 
         ${statusStyles[slot.style]}`}
     >
       <span className="text-[14px] font-medium">{slot.id}</span>

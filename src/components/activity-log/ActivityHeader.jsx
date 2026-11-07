@@ -1,4 +1,4 @@
-const ActivityHeader = () => {
+const ActivityHeader = ({ clearAllData }) => {
   return (
     <div className="mb-2 flex items-center justify-between">
       <h2 className="flex items-center gap-2 text-[17px] font-semibold">
@@ -7,7 +7,10 @@ const ActivityHeader = () => {
         </span>
         Activity log
       </h2>
-      <button className="rounded-lg border border-[#594957] px-3 py-1.5 text-[14px]">
+      <button
+        onClick={clearAllData}
+        className="cursor-pointer rounded-lg border border-[#594957] px-3 py-1.5 text-[14px]"
+      >
         ⟳ Reset lot
       </button>
     </div>

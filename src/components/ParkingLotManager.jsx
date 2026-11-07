@@ -86,6 +86,7 @@ const ParkingLotManager = () => {
     const availableSlot = slots.find((slot) => slot.style === "free").id;
 
     const newObject = {
+      id: crypto.randomUUID(),
       plateNumber: vehicleInfo.plateNumber,
       vehicleType: vehicleInfo.vehicleType,
       parkingFee: parkingFees.find(
@@ -148,23 +149,25 @@ const ParkingLotManager = () => {
       (detail) => detail.slotId === selectedSlot.slotId,
     )?.parkingFee;
 
-    // Free slots have no vehicle to check out or fee to collect.
-    if (chargingFee === undefined) return;
+    if (selectedSlot.slotType === "free") {
+      return;
+    } else {
+      setTotalRevenue((previousRevenue) => previousRevenue + chargingFee);
+    }
 
-    setTotalRevenue((previousRevenue) => previousRevenue + chargingFee);
     setSlots((prev) => {
       return prev.map((slot) =>
         slot.id === selectedSlot.slotId ? { ...slot, style: "free" } : slot,
       );
     });
-    setParkingDetails((prev) => {
-      return [
-        ...prev,
-        (parkingDetails.find(
-          (detail) => detail.slotId === selectedSlot.slotId,
-        ).status = "Released"),
-      ];
-    });
+    //status updation
+    setParkingDetails((prev) =>
+      prev.map((detail) =>
+        detail.slotId === selectedSlot.slotId
+          ? { ...detail, status: "Released" }
+          : detail,
+      ),
+    );
   }
 
   const statsData = {
@@ -173,6 +176,13 @@ const ParkingLotManager = () => {
     availableSlots,
     totalRevenue,
   };
+
+  //clear all data
+  function clearAllData() {
+    setSlots(initialSlots);
+    setParkingDetails([]);
+    setTotalRevenue(0);
+  }
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-[#10131f] via-[#111111] to-[#17121d] p-3 font-sans text-white sm:p-4">
@@ -196,7 +206,10 @@ const ParkingLotManager = () => {
           />
         </section>
 
-        <ActivityLog parkingDetails={parkingDetails} />
+        <ActivityLog
+          parkingDetails={parkingDetails}
+          clearAllData={clearAllData}
+        />
       </div>
     </main>
   );
