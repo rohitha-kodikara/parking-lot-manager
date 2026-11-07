@@ -1,7 +1,7 @@
 export const slots = [
   {
     id: "A1",
-    style: "occupied-car",
+    style: "free",
   },
   {
     id: "A2",
@@ -9,7 +9,7 @@ export const slots = [
   },
   {
     id: "A3",
-    style: "occupied-bike",
+    style: "free",
   },
   {
     id: "A4",
@@ -17,7 +17,7 @@ export const slots = [
   },
   {
     id: "A5",
-    style: "occupied-truck",
+    style: "free",
   },
   {
     id: "A6",
@@ -29,7 +29,7 @@ export const slots = [
   },
   {
     id: "A8",
-    style: "occupied-car",
+    style: "free",
   },
   {
     id: "A9",
@@ -37,7 +37,7 @@ export const slots = [
   },
   {
     id: "A10",
-    style: "occupied-bike",
+    style: "free",
   },
   {
     id: "A11",
@@ -53,4 +53,22 @@ export const activity = [
   { text: "KY-0043 (bike) checked out from A7", label: "+$3", color: "lime" },
   { text: "KY-0043 (bike) parked in A10", label: "Parked", color: "teal" },
   { text: "CAB-2256 (car) parked in A8", label: "Parked", color: "blue" },
+];
+
+export const parkingFees = [
+  {
+    id: 1,
+    vehicleType: "Bike",
+    fee: 100.0,
+  },
+  {
+    id: 2,
+    vehicleType: "Car",
+    fee: 150.0,
+  },
+  {
+    id: 3,
+    vehicleType: "Truck",
+    fee: 200.0,
+  },
 ];

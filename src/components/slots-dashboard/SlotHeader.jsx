@@ -10,13 +10,13 @@ const SlotHeader = () => {
         Slots
       </h2>
       <div className="flex gap-1.5 text-[14px]">
-        <button className="rounded-lg border border-[#414141] px-3 py-1.5">
+        <button className="cursor-pointer rounded-lg border border-[#414141] px-3 py-1.5 hover:bg-amber-100 hover:text-black hover:font-semibold">
           All
         </button>
-        <button className="rounded-lg border border-[#414141] px-3 py-1.5">
+        <button className="cursor-pointer rounded-lg border border-[#414141] px-3 py-1.5 hover:bg-blue-200 hover:text-black hover:font-semibold">
           Free
         </button>
-        <button className="rounded-lg border border-[#414141] px-3 py-1.5">
+        <button className="cursor-pointer rounded-lg border border-[#414141] px-3 py-1.5 hover:bg-blue-200 hover:text-black hover:font-semibold">
           Occupied
         </button>
       </div>
