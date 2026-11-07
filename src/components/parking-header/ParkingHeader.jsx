@@ -1,6 +1,7 @@
-import React from "react";
+import useParking from "../context/useParkingHook";
 
 const ParkingHeader = () => {
+  const { freeSlots } = useParking();
   return (
     <header className="flex h-[60px] items-center justify-between rounded-xl bg-[#554bbb] px-4">
       <div className="flex items-center gap-2.5">
@@ -19,7 +20,7 @@ const ParkingHeader = () => {
         </div>
       </div>
       <span className="rounded-full bg-[#effbdc] px-2.5 py-0.5 text-[10px] font-medium text-[#355a12]">
-        7 slots free
+        {freeSlots} slots free
       </span>
     </header>
   );

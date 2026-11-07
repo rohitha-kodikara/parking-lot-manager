@@ -1,9 +1,8 @@
-const CheckInForm = ({
-  vehicleInfo,
-  setVehicleInfo,
-  submitParkingDetails,
-  parkingFees,
-}) => {
+import useParking from "../../components/context/useParkingHook";
+const CheckInForm = () => {
+  const { vehicleInfo, dispatch, submitParkingDetails, parkingFees } =
+    useParking();
+
   return (
     <div className="rounded-xl border border-[#3b4168] bg-gradient-to-br from-[#1c2038] to-[#171923] p-4">
       <form onSubmit={submitParkingDetails} className="flex flex-col">
@@ -24,7 +23,10 @@ const CheckInForm = ({
           placeholder="ABC-1234"
           value={vehicleInfo.plateNumber}
           onChange={(e) =>
-            setVehicleInfo({ ...vehicleInfo, plateNumber: e.target.value })
+            dispatch({
+              type: "UPDATE_PlATE_NUMBER",
+              payload: { ...vehicleInfo, plateNumber: e.target.value },
+            })
           }
           className="mb-2.5 h-[34px] w-full rounded-md border border-[#41486f] bg-[#121522] px-2.5 text-[15px] outline-none placeholder:text-[#777]"
         />
@@ -38,7 +40,10 @@ const CheckInForm = ({
           id="vehicle"
           value={vehicleInfo.vehicleType}
           onChange={(e) =>
-            setVehicleInfo({ ...vehicleInfo, vehicleType: e.target.value })
+            dispatch({
+              type: "UPDATE_VEHICLE_TYPE",
+              payload: { ...vehicleInfo, vehicleType: e.target.value },
+            })
           }
           className="h-[34px] w-full rounded-md border border-[#41486f] bg-[#121522] px-2.5 text-[15px] outline-none"
         >
