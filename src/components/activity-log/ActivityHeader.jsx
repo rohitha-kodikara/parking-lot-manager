@@ -1,4 +1,7 @@
-const ActivityHeader = ({ clearAllData }) => {
+import useParking from "../context/useParkingHook";
+
+const ActivityHeader = () => {
+  const { clearAllData } = useParking();
   return (
     <div className="mb-2 flex items-center justify-between">
       <h2 className="flex items-center gap-2 text-[17px] font-semibold">

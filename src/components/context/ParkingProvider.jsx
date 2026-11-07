@@ -273,6 +273,7 @@ const ParkingProvider = ({ children }) => {
         freeSlots,
         clearAllData,
         releaseSlot,
+        parkingDetails: state.parkingDetails,
       }}
     >
       {children}

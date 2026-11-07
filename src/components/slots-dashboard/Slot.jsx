@@ -1,5 +1,3 @@
-import React from "react";
-
 const statusStyles = {
   free: "border-[#7ebd36] bg-[#214b09] text-[#a5e759]",
   "occupied-car": "border-[#57a8ff] bg-[#104579] text-[#b9dcff]",
@@ -12,6 +10,7 @@ const Slot = ({ slot, parkingDetails, onReleaseSlot }) => {
     parkingDetails.find(
       (detail) => detail.slotId === slot.id && detail.status === "Parked",
     )?.plateNumber || "";
+  console.log(plateNumber);
   return (
     <div
       onClick={() => onReleaseSlot({ slotId: slot.id, slotType: slot.style })}

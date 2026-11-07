@@ -1,6 +1,9 @@
+import useParking from "../context/useParkingHook";
 import Slot from "./Slot";
 
-const SlotsList = ({ filteredSlots, parkingDetails, releaseSlot }) => {
+const SlotsList = () => {
+  const { filteredSlots, state, releaseSlot } = useParking();
+
   return (
     <div className="grid grid-cols-3 gap-1.5 sm:grid-cols-4">
       {filteredSlots.length === 0 ? (
@@ -15,8 +18,8 @@ const SlotsList = ({ filteredSlots, parkingDetails, releaseSlot }) => {
           <Slot
             key={slot.id}
             slot={slot}
-            filteredSlots={filteredSlots}
-            parkingDetails={parkingDetails}
+            // filteredSlots={filteredSlots}
+            parkingDetails={state.parkingDetails}
             onReleaseSlot={releaseSlot}
           />
         ))

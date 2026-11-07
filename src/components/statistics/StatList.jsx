@@ -1,6 +1,9 @@
+import useParking from "../context/useParkingHook";
 import Stat from "./Stat";
 
-const StatList = ({ stats, statsData }) => {
+const StatList = () => {
+  const { stats, statsData } = useParking();
+
   return (
     <section
       className="grid grid-cols-2 gap-2.5 sm:grid-cols-4"

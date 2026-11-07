@@ -1,5 +1,7 @@
-const SlotHeader = ({ slots, updateSearchParams }) => {
-  // Calculate the number of free and occupied slots
+import useParking from "../context/useParkingHook";
+
+const SlotHeader = () => {
+  const { updateSearchParams } = useParking();
 
   return (
     <div className="mb-2.5 flex flex-wrap items-center justify-between gap-2">
