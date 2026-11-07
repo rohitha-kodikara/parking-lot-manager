@@ -12,8 +12,6 @@ const Slot = ({ slot, parkingDetails }) => {
     (detail) => detail.slotId === slot.id,
   )?.plateNumber;
 
-  console.log(parkingDetails);
-
   return (
     <div
       key={slot.id}

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import ParkingHeader from "./components/parking-header/ParkingHeader";
-import StatList from "./components/statistics/StatList";
-import CheckInForm from "./components/check-in-form/CheckInForm";
-import Dashboard from "./components/slots-dashboard/Dashboard";
-import ActivityLog from "./components/activity-log/ActivityLog";
-import { slots as initialSlots } from "./data/data";
-import { parkingFees } from "./data/data";
+import ParkingHeader from "./parking-header/ParkingHeader";
+import StatList from "./statistics/StatList";
+import CheckInForm from "./check-in-form/CheckInForm";
+import Dashboard from "./slots-dashboard/Dashboard";
+import ActivityLog from "./activity-log/ActivityLog";
+import { slots as initialSlots } from "../data/data";
+import { parkingFees } from "../data/data";
+import { useSearchParams } from "react-router-dom";
 
 const stats = ["Total slots", "Occupied", "Available", "Revenue today"];
 
@@ -16,6 +17,10 @@ const ParkingLotManager = () => {
   });
   const [parkingDetails, setParkingDetails] = useState([]);
   const [slots, setSlots] = useState(initialSlots);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const selectedSlot = searchParams.get("slot") || "All";
 
   //Validation function to check if the plate number is valid & if already parked
   function isPlateNumberValid(plateNumber) {
@@ -81,6 +86,28 @@ const ParkingLotManager = () => {
     });
   }
 
+  //filtering the parkingDetails
+  function updateSearchParams(value, key) {
+    const newSearchParams = new URLSearchParams(searchParams);
+
+    if (value === "" || value === null) {
+      newSearchParams.delete(key);
+    } else {
+      newSearchParams.set(key, value);
+    }
+    setSearchParams(newSearchParams);
+  }
+  const filteredSlots = slots.filter((slot) => {
+    if (selectedSlot === "All") {
+      return true; // Show all slots
+    } else if (selectedSlot === "Free") {
+      return slot.style === "free"; // Show only free slots
+    } else if (selectedSlot === "Occupied") {
+      return slot.style !== "free"; // Show only occupied slots
+    }
+    return true; // Default case (show all slots)
+  });
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-[#10131f] via-[#111111] to-[#17121d] p-3 font-sans text-white sm:p-4">
       <div className="mx-auto max-w-6xl space-y-3">
@@ -93,7 +120,13 @@ const ParkingLotManager = () => {
             submitParkingDetails={submitParkingDetails}
             parkingFees={parkingFees}
           />
-          <Dashboard slots={slots} parkingDetails={parkingDetails} />
+          <Dashboard
+            slots={slots}
+            filteredSlots={filteredSlots}
+            parkingDetails={parkingDetails}
+            selectedSlot={selectedSlot}
+            updateSearchParams={updateSearchParams}
+          />
         </section>
 
         <ActivityLog />

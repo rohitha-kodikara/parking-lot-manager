@@ -1,6 +1,8 @@
-import React from "react";
+const SlotHeader = ({ slots, updateSearchParams }) => {
+  console.log(slots);
 
-const SlotHeader = () => {
+  // Calculate the number of free and occupied slots
+
   return (
     <div className="mb-2.5 flex flex-wrap items-center justify-between gap-2">
       <h2 className="flex items-center gap-2 text-[17px] font-semibold">
@@ -10,13 +12,22 @@ const SlotHeader = () => {
         Slots
       </h2>
       <div className="flex gap-1.5 text-[14px]">
-        <button className="cursor-pointer rounded-lg border border-[#414141] px-3 py-1.5 hover:bg-amber-100 hover:text-black hover:font-semibold">
+        <button
+          onClick={() => updateSearchParams("All", "slot")}
+          className="cursor-pointer rounded-lg border border-[#414141] px-3 py-1.5 hover:bg-amber-100 hover:text-black hover:font-semibold"
+        >
           All
         </button>
-        <button className="cursor-pointer rounded-lg border border-[#414141] px-3 py-1.5 hover:bg-blue-200 hover:text-black hover:font-semibold">
+        <button
+          onClick={() => updateSearchParams("Free", "slot")}
+          className="cursor-pointer rounded-lg border border-[#414141] px-3 py-1.5 hover:bg-blue-200 hover:text-black hover:font-semibold"
+        >
           Free
         </button>
-        <button className="cursor-pointer rounded-lg border border-[#414141] px-3 py-1.5 hover:bg-blue-200 hover:text-black hover:font-semibold">
+        <button
+          onClick={() => updateSearchParams("Occupied", "slot")}
+          className="cursor-pointer rounded-lg border border-[#414141] px-3 py-1.5 hover:bg-blue-200 hover:text-black hover:font-semibold"
+        >
           Occupied
         </button>
       </div>
