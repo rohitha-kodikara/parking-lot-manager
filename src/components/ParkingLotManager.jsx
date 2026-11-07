@@ -8,7 +8,32 @@ import { slots as initialSlots } from "../data/data";
 import { parkingFees } from "../data/data";
 import { useSearchParams } from "react-router-dom";
 
-const stats = ["Total slots", "Occupied", "Available", "Revenue today"];
+const stats = [
+  {
+    key: "totalSlots",
+    title: "total Slots",
+    bgColor: "border-[#e5794f] bg-[#702a13]",
+    prefix: "",
+  },
+  {
+    key: "occupiedSlots",
+    title: "Occupied",
+    bgColor: "border-[#8aca3c] bg-[#234d0a]",
+    prefix: "",
+  },
+  {
+    key: "availableSlots",
+    title: "Available",
+    bgColor: "border-[#f1a000] bg-[#603503]",
+    prefix: "",
+  },
+  {
+    key: "totalRevenue",
+    title: "Revenue Today",
+    bgColor: "border-[#9188e9] bg-[#3c347f]",
+    prefix: "LKR.",
+  },
+];
 
 const ParkingLotManager = () => {
   const [vehicleInfo, setVehicleInfo] = useState({
@@ -17,6 +42,7 @@ const ParkingLotManager = () => {
   });
   const [parkingDetails, setParkingDetails] = useState([]);
   const [slots, setSlots] = useState(initialSlots);
+  const [totalRevenue, setTotalRevenue] = useState(0);
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -28,7 +54,10 @@ const ParkingLotManager = () => {
     return plateNumberPattern.test(plateNumber);
   }
   function isPlateNumberAlreadyParked(plateNumber) {
-    return parkingDetails.some((detail) => detail.plateNumber === plateNumber);
+    return parkingDetails.some(
+      (detail) =>
+        detail.plateNumber === plateNumber && detail.status === "Parked",
+    );
   }
 
   function validateForm() {
@@ -64,6 +93,7 @@ const ParkingLotManager = () => {
       ).fee,
       slotId: availableSlot,
       checkInTime: new Date().toLocaleString(),
+      status: "Parked",
     };
     setParkingDetails((prev) => {
       return [...prev, newObject];
@@ -108,11 +138,47 @@ const ParkingLotManager = () => {
     return true; // Default case (show all slots)
   });
 
+  //stats data
+  const totalSlots = slots.length;
+  const occupiedSlots = slots.filter((slot) => slot.style !== "free").length;
+  const availableSlots = totalSlots - occupiedSlots;
+  //Release slot function
+  function releaseSlot(selectedSlot) {
+    const chargingFee = parkingDetails.find(
+      (detail) => detail.slotId === selectedSlot.slotId,
+    )?.parkingFee;
+
+    // Free slots have no vehicle to check out or fee to collect.
+    if (chargingFee === undefined) return;
+
+    setTotalRevenue((previousRevenue) => previousRevenue + chargingFee);
+    setSlots((prev) => {
+      return prev.map((slot) =>
+        slot.id === selectedSlot.slotId ? { ...slot, style: "free" } : slot,
+      );
+    });
+    setParkingDetails((prev) => {
+      return [
+        ...prev,
+        (parkingDetails.find(
+          (detail) => detail.slotId === selectedSlot.slotId,
+        ).status = "Released"),
+      ];
+    });
+  }
+
+  const statsData = {
+    totalSlots,
+    occupiedSlots,
+    availableSlots,
+    totalRevenue,
+  };
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-[#10131f] via-[#111111] to-[#17121d] p-3 font-sans text-white sm:p-4">
       <div className="mx-auto max-w-6xl space-y-3">
         <ParkingHeader />
-        <StatList stats={stats} />
+        <StatList stats={stats} statsData={statsData} />
         <section className="grid gap-2.5 md:grid-cols-[minmax(220px,0.6fr)_minmax(0,1fr)]">
           <CheckInForm
             vehicleInfo={vehicleInfo}
@@ -126,10 +192,11 @@ const ParkingLotManager = () => {
             parkingDetails={parkingDetails}
             selectedSlot={selectedSlot}
             updateSearchParams={updateSearchParams}
+            releaseSlot={releaseSlot}
           />
         </section>
 
-        <ActivityLog />
+        <ActivityLog parkingDetails={parkingDetails} />
       </div>
     </main>
   );

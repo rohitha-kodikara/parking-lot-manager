@@ -1,8 +1,6 @@
-import React from "react";
-
 import Slot from "./Slot";
 
-const SlotsList = ({ filteredSlots }) => {
+const SlotsList = ({ filteredSlots, parkingDetails, releaseSlot }) => {
   return (
     <div className="grid grid-cols-3 gap-1.5 sm:grid-cols-4">
       {filteredSlots.length === 0 ? (
@@ -14,7 +12,13 @@ const SlotsList = ({ filteredSlots }) => {
         </div>
       ) : (
         filteredSlots.map((slot) => (
-          <Slot key={slot.id} slot={slot} parkingDetails={filteredSlots} />
+          <Slot
+            key={slot.id}
+            slot={slot}
+            filteredSlots={filteredSlots}
+            parkingDetails={parkingDetails}
+            onReleaseSlot={releaseSlot}
+          />
         ))
       )}
     </div>

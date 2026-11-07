@@ -1,6 +1,4 @@
 const SlotHeader = ({ slots, updateSearchParams }) => {
-  console.log(slots);
-
   // Calculate the number of free and occupied slots
 
   return (

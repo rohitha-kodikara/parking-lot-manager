@@ -7,20 +7,21 @@ const statusStyles = {
   "occupied-truck": "border-[#ed9a00] bg-[#603800] text-[#ffd35b]",
 };
 
-const Slot = ({ slot, parkingDetails }) => {
-  const getPlateNumber = parkingDetails.find(
-    (detail) => detail.slotId === slot.id,
-  )?.plateNumber;
-
+const Slot = ({ slot, parkingDetails, onReleaseSlot }) => {
+  const plateNumber =
+    parkingDetails.find(
+      (detail) => detail.slotId === slot.id && detail.status === "Parked",
+    )?.plateNumber || "";
   return (
     <div
+      onClick={() => onReleaseSlot({ slotId: slot.id, slotType: slot.style })}
       key={slot.id}
       className={`flex h-[63px] flex-col items-center justify-center rounded-lg border text-center leading-[15px] 
         ${statusStyles[slot.style]}`}
     >
       <span className="text-[14px] font-medium">{slot.id}</span>
       <span className="text-[12px]">{slot.style}</span>
-      <span className="text-[12px]">{getPlateNumber || ""}</span>
+      <span className="text-[12px]">{plateNumber}</span>
     </div>
   );
 };
